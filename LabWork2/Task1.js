@@ -4,7 +4,7 @@ var Cat = /** @class */ (function () {
         this.age = age;
     }
     Cat.prototype.move = function () {
-        console.log('${this.name} ходить на лапах.');
+        console.log("".concat(this.name, " \u0445\u043E\u0434\u0438\u0442\u044C \u043D\u0430 \u043B\u0430\u043F\u0430\u0445."));
     };
     return Cat;
 }());
@@ -15,7 +15,7 @@ var Bird = /** @class */ (function () {
         this.age = age;
     }
     Bird.prototype.move = function () {
-        console.log('${this.name} летить.');
+        console.log("".concat(this.name, " \u043B\u0435\u0442\u0438\u0442\u044C."));
     };
     return Bird;
 }());
@@ -26,7 +26,7 @@ var Fish = /** @class */ (function () {
         this.age = age;
     }
     Fish.prototype.move = function () {
-        console.log('${this.name} пливе.');
+        console.log("".concat(this.name, " \u043F\u043B\u0438\u0432\u0435."));
     };
     return Fish;
 }());
@@ -53,3 +53,7 @@ var fish = {
         console.log("Рибка пливе.");
     },
 };
+console.log("Скрипт виконується!");
+cat.move();
+fish.move();
+bird.move();

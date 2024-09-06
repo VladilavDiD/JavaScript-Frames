@@ -18,7 +18,7 @@ class Cat implements Animal {
     }
 
     move(): void {
-        console.log('${this.name} ходить на лапах.');
+        console.log(`${this.name} ходить на лапах.`);
     }
 }
 
@@ -33,7 +33,7 @@ class Bird implements Animal {
     }
 
     move(): void {
-        console.log('${this.name} летить.');
+        console.log(`${this.name} летить.`);
     }
 }
 
@@ -48,7 +48,7 @@ class Fish implements Animal {
     }
 
     move(): void {
-        console.log('${this.name} пливе.');
+        console.log(`${this.name} пливе.`);
     }
 }
 
@@ -77,3 +77,10 @@ const fish: Animal = {
         console.log("Рибка пливе.");
     },
 };
+
+console.log("Скрипт виконується!");
+
+cat.move(); 
+fish.move(); 
+bird.move(); 
+
