@@ -8,7 +8,88 @@
     <link rel="stylesheet" href="libs/bootstrap.css">
 </head>
 <body>
-    <div id="app"></div>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Система Управління Бібліотекою</h2>
+        
+        <!-- Додати Книгу -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Додати Книгу</h5>
+            <form id="bookForm">
+              <div class="mb-3">
+                <label for="bookTitle" class="form-label">Назва книги</label>
+                <input type="text" class="form-control" id="bookTitle" required>
+              </div>
+              <div class="mb-3">
+                <label for="bookAuthor" class="form-label">Автор</label>
+                <input type="text" class="form-control" id="bookAuthor" required>
+              </div>
+              <div class="mb-3">
+                <label for="bookYear" class="form-label">Рік видання</label>
+                <input type="number" class="form-control" id="bookYear" required>
+              </div>
+              <button type="submit" class="btn btn-success">Додати Книгу</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Додати Користувача -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Додати Користувача</h5>
+            <form id="userForm">
+              <div class="mb-3">
+                <label for="userName" class="form-label">Ім'я</label>
+                <input type="text" class="form-control" id="userName" required>
+              </div>
+              <div class="mb-3">
+                <label for="userEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="userEmail" required>
+              </div>
+              <button type="submit" class="btn btn-success">Додати Користувача</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Список Книг -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Список Книг</h5>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Назва</th>
+                  <th scope="col">Автор</th>
+                  <th scope="col">Рік</th>
+                  <th scope="col">Дія</th>
+                </tr>
+              </thead>
+              <tbody id="bookList">
+                <!-- Книги будуть додані тут -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+    
+        <!-- Список Користувачів -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Список Користувачів</h5>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Ім'я</th>
+                  <th scope="col">Email</th>
+                </tr>
+              </thead>
+              <tbody id="userList">
+                <!-- Користувачі будуть додані тут -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
     <script src="bundle.js"></script>
 </body>
 </html>
