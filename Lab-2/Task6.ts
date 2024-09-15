@@ -1,4 +1,3 @@
-// Інтерфейс LibraryItem
 interface LibraryItem {
     title: string;
     author: string;
@@ -7,7 +6,6 @@ interface LibraryItem {
     borrow(): void; // Метод для позначення елементу як позиченого
 }
 
-// Клас Book, що імплементує інтерфейс LibraryItem
 class Book implements LibraryItem {
     title: string;
     author: string;
@@ -30,7 +28,6 @@ class Book implements LibraryItem {
     }
 }
 
-// Клас Magazine, що імплементує інтерфейс LibraryItem
 class Magazine implements LibraryItem {
     title: string;
     author: string;
@@ -53,7 +50,6 @@ class Magazine implements LibraryItem {
     }
 }
 
-// Клас DVD, що імплементує інтерфейс LibraryItem
 class DVD implements LibraryItem {
     title: string;
     author: string;
@@ -86,7 +82,6 @@ class Library {
         console.log(`Додано елемент: ${item.title}`);
     }
 
-    // Метод для пошуку елементів за назвою без використання find
     findItemByName(name: string): LibraryItem | undefined {
         for (const item of this.items) {
             if (item.title === name) {
