@@ -69,11 +69,14 @@ namespace LibraryApp {
       books.forEach((book, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${book.title}</td>
-          <td>${book.author}</td>
-          <td>${book.year}</td>
-          <td><button class="btn btn-danger" onclick="app.deleteBook(${index})">Видалити</button></td>
-        `;
+        <td>${book.title}</td>
+        <td>${book.author}</td>
+        <td>${book.year}</td>
+        <td>
+          <button class="btn btn-success" onclick="app.borrowBookPrompt(${index})">Позичити</button>
+          <button class="btn btn-warning" onclick="app.returnBookPrompt(${index})">Повернути</button>
+        </td>
+      `;
         bookList.appendChild(row);
       });
     }
@@ -93,7 +96,16 @@ namespace LibraryApp {
         userList.appendChild(row);
       });
     }
-    
+
+    // Запит ID користувача перед поверненням
+    public returnBookPrompt(index: number): void {
+      const userId = parseInt(prompt('Введіть ID користувача') || '', 10);
+      if (!isNaN(userId)) {
+        this.libraryService.returnBook(index, userId);
+      } else {
+        alert('Невірний ID користувача');
+      }
+    }
 
     public deleteBook(index: number): void {
       this.libraryService.removeBook(index);
