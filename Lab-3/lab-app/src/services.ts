@@ -133,4 +133,10 @@ export class LibraryService {
       this.userIdCounter = this.users.length + 1; // Оновлюємо лічильник ID
     }
   }
+
+  // Видалення користувача
+  public removeUser(userId: number): void {
+    this.users = this.users.filter(user => user.id !== userId);
+    this.saveUsersToLocalStorage(); // Оновлюємо LocalStorage після видалення користувача
+  }
 }

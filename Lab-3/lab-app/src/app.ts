@@ -8,10 +8,9 @@ namespace LibraryApp {
 
     constructor() {
       this.libraryService = new LibraryService();
-
       this.setupEventListeners();
-      this.displayBooks(); // Відобразити книги при завантаженні
-      this.displayUsers(); // Відобразити користувачів при завантаженні
+      this.displayBooks();
+      this.displayUsers();
     }
 
     private setupEventListeners(): void {
@@ -29,22 +28,11 @@ namespace LibraryApp {
         this.addUser();
       });
 
-      // Обробка подій для кнопок
-      document.getElementById('bookList')?.addEventListener('click', (event) => {
-        if (event.target instanceof HTMLButtonElement) {
-          const button = event.target;
-          const bookIndex = parseInt(button.getAttribute('data-book-index') || '', 10);
-          
-          if (button.classList.contains('borrow-btn')) {
-            this.borrowBookPrompt(bookIndex);
-          }
-          if (button.classList.contains('return-btn')) {
-            this.returnBookPrompt(bookIndex);
-          }
-          if (button.classList.contains('delete-btn')) {
-            this.deleteBook(bookIndex);
-          }
-        }
+      // Пошук книг
+      const searchForm = document.getElementById('searchForm') as HTMLFormElement;
+      searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.searchBooks();
       });
     }
 
@@ -54,13 +42,14 @@ namespace LibraryApp {
       const bookYear = (document.getElementById('bookYear') as HTMLInputElement).value;
 
       if (!Validation.isNotEmpty(bookTitle) || !Validation.isNotEmpty(bookAuthor) || !Validation.isValidYear(bookYear)) {
-        alert('Введіть коректні дані для книги!');
+        this.showNotification('Введіть коректні дані для книги!', 'danger');
         return;
       }
 
       const newBook = new Book(bookTitle, bookAuthor, parseInt(bookYear));
       this.libraryService.addBook(newBook);
       this.displayBooks();
+      this.showNotification(`Книга "${newBook.title}" успішно додана.`, 'success');
     }
 
     private addUser(): void {
@@ -68,23 +57,23 @@ namespace LibraryApp {
       const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
 
       if (!Validation.isNotEmpty(userName) || !Validation.isValidEmail(userEmail)) {
-        alert('Введіть коректні дані для користувача!');
+        this.showNotification('Введіть коректні дані для користувача!', 'danger');
         return;
       }
 
       // Генеруємо унікальний ID для нового користувача
-      const newUserId = this.libraryService.getUsers().length + 1; // або будь-який інший спосіб генерування ID
+      const newUserId = this.libraryService.getUsers().length + 1;
       const newUser = new User(newUserId, userName, userEmail);
 
       this.libraryService.addUser(newUser);
       this.displayUsers();
+      this.showNotification(`Користувач ${newUser.name} успішно доданий.`, 'success');
     }
 
-    private displayBooks(): void {
+    private displayBooks(books: Book[] = this.libraryService.getBooks()): void {
       const bookList = document.getElementById('bookList') as HTMLElement;
-      bookList.innerHTML = '';  // Очищаємо список перед виведенням
+      bookList.innerHTML = '';
 
-      const books = this.libraryService.getBooks();
       books.forEach((book, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -92,9 +81,9 @@ namespace LibraryApp {
           <td>${book.author}</td>
           <td>${book.year}</td>
           <td>
-            <button class="btn btn-primary btn-sm borrow-btn" data-book-index="${index}">Позичити</button>
-            <button class="btn btn-warning btn-sm return-btn" data-book-index="${index}">Повернути</button>
-            <button class="btn btn-danger btn-sm delete-btn" data-book-index="${index}">Видалити</button>
+            <button class="btn btn-primary" onclick="app.borrowBookPrompt(${index})">Позичити</button>
+            <button class="btn btn-danger" onclick="app.returnBookPrompt(${index})">Повернути</button>
+            <button class="btn btn-warning" onclick="app.deleteBook(${index})">Видалити</button>
           </td>
         `;
         bookList.appendChild(row);
@@ -103,7 +92,7 @@ namespace LibraryApp {
 
     private displayUsers(): void {
       const userList = document.getElementById('userList') as HTMLElement;
-      userList.innerHTML = '';  // Очищаємо список перед виведенням
+      userList.innerHTML = '';
 
       const users = this.libraryService.getUsers();
       users.forEach((user) => {
@@ -112,18 +101,65 @@ namespace LibraryApp {
           <td>${user.id}</td>
           <td>${user.name}</td>
           <td>${user.email}</td>
+          <td>
+            <button class="btn btn-danger" onclick="app.deleteUser(${user.id})">Видалити</button>
+          </td>
         `;
         userList.appendChild(row);
       });
     }
 
+    private searchBooks(): void {
+      const query = (document.getElementById('searchQuery') as HTMLInputElement).value.toLowerCase();
+      const books = this.libraryService.getBooks();
+      const results = books.filter(book => book.title.toLowerCase().includes(query) || book.author.toLowerCase().includes(query));
+
+      const searchResults = document.getElementById('searchResults') as HTMLElement;
+      searchResults.innerHTML = '<h5>Результати Пошуку:</h5>';
+      this.displayBooks(results);
+    }
+
+    private showNotification(message: string, type: 'success' | 'danger'): void {
+      const notificationArea = document.getElementById('notificationArea')!;
+      const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+      
+      // Створити елемент сповіщення
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert ${alertClass} alert-dismissible fade show`;
+      alertDiv.role = 'alert';
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      
+      // Додати сповіщення до області сповіщень
+      notificationArea.appendChild(alertDiv);
+
+      // Видалити сповіщення через 5 секунд
+      setTimeout(() => {
+        alertDiv.classList.remove('show');
+        setTimeout(() => alertDiv.remove(), 150);
+      }, 5000);
+    }
+
     public borrowBookPrompt(index: number): void {
       const userId = parseInt(prompt('Введіть ID користувача') || '', 10);
       if (!isNaN(userId)) {
-        this.libraryService.borrowBook(index, userId);
-        this.displayBooks(); // Оновити список книг після позичання
+        const book = this.libraryService.getBooks()[index];
+        const user = this.libraryService.getUserById(userId);
+
+        if (user && book) {
+          if (user.canBorrowMoreBooks()) {
+            this.libraryService.borrowBook(index, userId);
+            this.showNotification(`Книга "${book.title}" успішно позичена користувачу ${user.name}.`, 'success');
+          } else {
+            this.showNotification(`Користувач ${user.name} не може позичити більше 3-х книг.`, 'danger');
+          }
+        } else {
+          this.showNotification('Помилка: Книга або користувач не знайдені.', 'danger');
+        }
       } else {
-        alert('Невірний ID користувача');
+        this.showNotification('Невірний ID користувача', 'danger');
       }
     }
 
@@ -131,17 +167,32 @@ namespace LibraryApp {
       const userId = parseInt(prompt('Введіть ID користувача') || '', 10);
       if (!isNaN(userId)) {
         this.libraryService.returnBook(index, userId);
-        this.displayBooks(); // Оновити список книг після повернення
+        this.showNotification(`Книга успішно повернута користувачем з ID ${userId}.`, 'success');
       } else {
-        alert('Невірний ID користувача');
+        this.showNotification('Невірний ID користувача', 'danger');
       }
     }
 
     public deleteBook(index: number): void {
+      const book = this.libraryService.getBooks()[index];
       this.libraryService.removeBook(index);
       this.displayBooks();
+      this.showNotification(`Книга "${book.title}" успішно видалена.`, 'success');
+    }
+
+    public deleteUser(userId: number): void {
+      const user = this.libraryService.getUserById(userId);
+      if (user) {
+        this.libraryService.removeUser(userId);
+        this.displayUsers();
+        this.showNotification(`Користувач ${user.name} успішно видалений.`, 'success');
+      } else {
+        this.showNotification('Помилка: Користувач не знайдений.', 'danger');
+      }
     }
   }
 }
 
+// Ініціалізація додатка
 const app = new LibraryApp.App();
+(window as any).app = app;

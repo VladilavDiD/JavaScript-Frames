@@ -136,6 +136,20 @@
       </div>
     </div>
     
+    <!-- Пошук книг -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Пошук Книг</h5>
+        <form id="searchForm">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="searchQuery" placeholder="Назва або Автор" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Пошук</button>
+        </form>
+        <div id="searchResults"></div>
+      </div>
+    </div>
+
     <!-- Список Книг -->
     <div class="card mb-4">
       <div class="card-body">
@@ -166,6 +180,7 @@
               <th>ID</th>
               <th>Ім'я</th>
               <th>Email</th>
+              <th>Дії</th>
             </tr>
           </thead>
           <tbody id="userList">
