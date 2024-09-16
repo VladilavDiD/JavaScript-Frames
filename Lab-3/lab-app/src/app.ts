@@ -10,6 +10,8 @@ namespace LibraryApp {
       this.libraryService = new LibraryService();
 
       this.setupEventListeners();
+      this.displayBooks(); // Відобразити книги при завантаженні
+      this.displayUsers(); // Відобразити користувачів при завантаженні
     }
 
     private setupEventListeners(): void {
@@ -25,6 +27,24 @@ namespace LibraryApp {
       userForm.addEventListener('submit', (e) => {
         e.preventDefault();
         this.addUser();
+      });
+
+      // Обробка подій для кнопок
+      document.getElementById('bookList')?.addEventListener('click', (event) => {
+        if (event.target instanceof HTMLButtonElement) {
+          const button = event.target;
+          const bookIndex = parseInt(button.getAttribute('data-book-index') || '', 10);
+          
+          if (button.classList.contains('borrow-btn')) {
+            this.borrowBookPrompt(bookIndex);
+          }
+          if (button.classList.contains('return-btn')) {
+            this.returnBookPrompt(bookIndex);
+          }
+          if (button.classList.contains('delete-btn')) {
+            this.deleteBook(bookIndex);
+          }
+        }
       });
     }
 
@@ -46,20 +66,19 @@ namespace LibraryApp {
     private addUser(): void {
       const userName = (document.getElementById('userName') as HTMLInputElement).value;
       const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
-    
+
       if (!Validation.isNotEmpty(userName) || !Validation.isValidEmail(userEmail)) {
         alert('Введіть коректні дані для користувача!');
         return;
       }
-    
+
       // Генеруємо унікальний ID для нового користувача
       const newUserId = this.libraryService.getUsers().length + 1; // або будь-який інший спосіб генерування ID
       const newUser = new User(newUserId, userName, userEmail);
-    
+
       this.libraryService.addUser(newUser);
       this.displayUsers();
     }
-    
 
     private displayBooks(): void {
       const bookList = document.getElementById('bookList') as HTMLElement;
@@ -69,14 +88,15 @@ namespace LibraryApp {
       books.forEach((book, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>${book.year}</td>
-        <td>
-          <button class="btn btn-success" onclick="app.borrowBookPrompt(${index})">Позичити</button>
-          <button class="btn btn-warning" onclick="app.returnBookPrompt(${index})">Повернути</button>
-        </td>
-      `;
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.year}</td>
+          <td>
+            <button class="btn btn-primary btn-sm borrow-btn" data-book-index="${index}">Позичити</button>
+            <button class="btn btn-warning btn-sm return-btn" data-book-index="${index}">Повернути</button>
+            <button class="btn btn-danger btn-sm delete-btn" data-book-index="${index}">Видалити</button>
+          </td>
+        `;
         bookList.appendChild(row);
       });
     }
@@ -84,7 +104,7 @@ namespace LibraryApp {
     private displayUsers(): void {
       const userList = document.getElementById('userList') as HTMLElement;
       userList.innerHTML = '';  // Очищаємо список перед виведенням
-    
+
       const users = this.libraryService.getUsers();
       users.forEach((user) => {
         const row = document.createElement('tr');
@@ -97,11 +117,21 @@ namespace LibraryApp {
       });
     }
 
-    // Запит ID користувача перед поверненням
+    public borrowBookPrompt(index: number): void {
+      const userId = parseInt(prompt('Введіть ID користувача') || '', 10);
+      if (!isNaN(userId)) {
+        this.libraryService.borrowBook(index, userId);
+        this.displayBooks(); // Оновити список книг після позичання
+      } else {
+        alert('Невірний ID користувача');
+      }
+    }
+
     public returnBookPrompt(index: number): void {
       const userId = parseInt(prompt('Введіть ID користувача') || '', 10);
       if (!isNaN(userId)) {
         this.libraryService.returnBook(index, userId);
+        this.displayBooks(); // Оновити список книг після повернення
       } else {
         alert('Невірний ID користувача');
       }

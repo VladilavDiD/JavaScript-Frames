@@ -1,53 +1,52 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Система управління бібліотекою</title>
-  <link rel="stylesheet" href="libs/bootstrap.css">
+  <link rel="stylesheet" href="./lab-app/libs/bootstrap.css">
   <style>
-  body {
-  background-color: #f8f9fa; /* Світло-сірий фон для всієї сторінки */
-  }
-  .container {
+    body {
+      background-color: #f8f9fa; /* Світло-сірий фон для всієї сторінки */
+    }
+    .container {
       background-color: white; /* Білий фон для основного блоку */
       padding: 20px; /* Внутрішні відступи всередині контейнера */
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-
-  .card {
+    .card {
       background-color: #f9f9f9; /* Світло-сірий фон для карток */
       border-radius: 8px;
       border: none;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px; /* Відступ між картками (знизу) */
-  }
-
-  .card-body {
+    }
+    .card-body {
       padding: 20px; /* Внутрішні відступи всередині картки */
-  }
-
-  .card-title {
+    }
+    .card-title {
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 15px; /* Відступ між заголовком та формою/списком */
-  }
-
-  .btn-success {
+    }
+    .btn-success {
       background-color: #28a745;
       border-color: #28a745;
-      margin-top: 10px; /* Відступ зверху для кнопки "Додати Книгу"/"Додати Користувача" */
-  }
-
-  .btn-primary {
+      margin-top: 10px; /* Відступ зверху для кнопки Додати Книгу */
+    }
+    .btn-primary {
       background-color: #007bff;
       border-color: #007bff;
       margin-left: 15px; /* Відступ між кнопкою і текстом в списку */
-  }
-
-  .list-group-item {
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      margin-left: 15px; /* Відступ між кнопкою і текстом в списку */
+    }
+    .list-group-item {
       background-color: #fff; /* Білий фон для елементів списку */
       display: flex;
       justify-content: space-between;
@@ -55,99 +54,98 @@
       border-bottom: 1px solid #e9ecef; /* Полоска для розділення елементів */
       padding: 10px 15px; /* Внутрішні відступи для елементів списку */
       margin-bottom: 10px; /* Відступ між елементами списку */
-  }
-
-  .form-control {
+    }
+    .form-control {
       border-radius: 5px;
-      width: 100%; /* Розширює ввід до повної ширини */
+      width: 100%; 
       margin-bottom: 10px; /* Відступ між полями введення */
-  }
-
-  .table-responsive {
+    }
+    .table-responsive {
       margin-top: 20px; /* Відступ між списком та заголовком картки */
-  }
-
-  .header {
-     padding-bottom: 20px; /* Відступ знизу заголовка */
-  }
-
-</style>
+    }
+    .header {
+      padding-bottom: 20px; /* Відступ знизу заголовка */
+    }
+  </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4 header">Система Управління Бібліотекою</h2>
-        
-        <!-- Додати Книгу -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Додати Книгу</h5>
-                <form id="bookForm">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" id="bookTitle" placeholder="Назва книги" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" id="bookAuthor" placeholder="Автор" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="number" class="form-control" id="bookYear" placeholder="Рік видання" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Додати Книгу</button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Додати Користувача -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Додати Користувача</h5>
-                <form id="userForm">
-                    <div class="mb-3">
-                        <input type="text" class="form-control" id="userName" placeholder="Ім'я" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
-                    </div>
-                    <button type="submit" class="btn btn-success">Додати Користувача</button>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Список Книг -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Список Книг</h5>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Code Complete by Steve McConnell (2004)
-                        <button class="btn btn-primary btn-sm">Позичити</button>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Clean Code: A Handbook of Agile Software Craftsmanship by Роберт Мартін (2008)
-                        <button class="btn btn-primary btn-sm">Позичити</button>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        The Pragmatic Programmer: Your Journey to Mastery by Ендрю Хант, Девід Томас (1999)
-                        <button class="btn btn-primary btn-sm">Позичити</button>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4 header">Система Управління Бібліотекою</h2>
     
-        <!-- Список Користувачів -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Список Користувачів</h5>
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        1725533394038 Артем (artemkarachevtsev@gmail.com)
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        1725533437798 Мартін (software@gmail.com)
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <!-- Додати Книгу -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Додати Книгу</h5>
+        <form id="bookForm">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="bookTitle" placeholder="Назва книги" required>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="bookAuthor" placeholder="Автор" required>
+          </div>
+          <div class="mb-3">
+            <input type="number" class="form-control" id="bookYear" placeholder="Рік видання" required>
+          </div>
+          <button type="submit" class="btn btn-success">Додати Книгу</button>
+        </form>
+      </div>
     </div>
-    <script src="bundle.js"></script>
+    
+    <!-- Додати Користувача -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Додати Користувача</h5>
+        <form id="userForm">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="userName" placeholder="Ім'я" required>
+          </div>
+          <div class="mb-3">
+            <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
+          </div>
+          <button type="submit" class="btn btn-success">Додати Користувача</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Список Книг -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Список Книг</h5>
+        <table class="table table-striped table-responsive">
+          <thead>
+            <tr>
+              <th>Назва</th>
+              <th>Автор</th>
+              <th>Рік видання</th>
+              <th>Дії</th>
+            </tr>
+          </thead>
+          <tbody id="bookList">
+            <!-- Список книг буде заповнено за допомогою JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <!-- Список Користувачів -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Список Користувачів</h5>
+        <table class="table table-striped table-responsive">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ім'я</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody id="userList">
+            <!-- Список користувачів буде заповнено за допомогою JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="bundle.js"></script>
 </body>
 </html>
