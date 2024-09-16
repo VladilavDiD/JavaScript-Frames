@@ -31,20 +31,38 @@
       font-weight: 600;
       margin-bottom: 15px; /* Відступ між заголовком та формою/списком */
     }
+    .btn {
+      border-radius: 20px; /* Округлення кнопок */
+      padding: 10px 20px; /* Внутрішні відступи для кнопок */
+      font-size: 0.9rem; /* Зменшення розміру шрифту кнопок */
+      transition: background-color 0.3s, box-shadow 0.3s; /* Плавний перехід для кольору фону і тіні */
+    }
     .btn-success {
       background-color: #28a745;
       border-color: #28a745;
-      margin-top: 10px; /* Відступ зверху для кнопки Додати Книгу */
+    }
+    .btn-success:hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .btn-primary {
       background-color: #007bff;
       border-color: #007bff;
-      margin-left: 15px; /* Відступ між кнопкою і текстом в списку */
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .btn-danger {
       background-color: #dc3545;
       border-color: #dc3545;
-      margin-left: 15px; /* Відступ між кнопкою і текстом в списку */
+    }
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .list-group-item {
       background-color: #fff; /* Білий фон для елементів списку */
@@ -66,12 +84,23 @@
     .header {
       padding-bottom: 20px; /* Відступ знизу заголовка */
     }
+    /* Стилі для сповіщень */
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+      width: 300px;
+    }
   </style>
 </head>
 <body>
   <div class="container mt-5">
     <h2 class="text-center mb-4 header">Система Управління Бібліотекою</h2>
     
+    <!-- Місце для сповіщень -->
+    <div id="notificationArea"></div>
+
     <!-- Додати Книгу -->
     <div class="card mb-4">
       <div class="card-body">
@@ -147,5 +176,6 @@
     </div>
   </div>
   <script src="bundle.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
