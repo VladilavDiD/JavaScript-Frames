@@ -6,85 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Система управління бібліотекою</title>
   <link rel="stylesheet" href="./lab-app/libs/bootstrap.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     body {
-      background-color: #f8f9fa; /* Світло-сірий фон для всієї сторінки */
+      background-color: #f8f9fa;
     }
     .container {
-      background-color: white; /* Білий фон для основного блоку */
-      padding: 20px; /* Внутрішні відступи всередині контейнера */
+      background-color: white;
+      padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .card {
-      background-color: #f9f9f9; /* Світло-сірий фон для карток */
-      border-radius: 8px;
-      border: none;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px; /* Відступ між картками (знизу) */
-    }
-    .card-body {
-      padding: 20px; /* Внутрішні відступи всередині картки */
-    }
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 15px; /* Відступ між заголовком та формою/списком */
-    }
-    .btn {
-      border-radius: 20px; /* Округлення кнопок */
-      padding: 10px 20px; /* Внутрішні відступи для кнопок */
-      font-size: 0.9rem; /* Зменшення розміру шрифту кнопок */
-      transition: background-color 0.3s, box-shadow 0.3s; /* Плавний перехід для кольору фону і тіні */
-    }
-    .btn-success {
-      background-color: #28a745;
-      border-color: #28a745;
-    }
-    .btn-success:hover {
-      background-color: #218838;
-      border-color: #1e7e34;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .btn-primary {
-      background-color: #007bff;
-      border-color: #007bff;
-    }
-    .btn-primary:hover {
-      background-color: #0056b3;
-      border-color: #004085;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .btn-danger {
-      background-color: #dc3545;
-      border-color: #dc3545;
-    }
-    .btn-danger:hover {
-      background-color: #c82333;
-      border-color: #bd2130;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    .list-group-item {
-      background-color: #fff; /* Білий фон для елементів списку */
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #e9ecef; /* Полоска для розділення елементів */
-      padding: 10px 15px; /* Внутрішні відступи для елементів списку */
-      margin-bottom: 10px; /* Відступ між елементами списку */
-    }
-    .form-control {
-      border-radius: 5px;
-      width: 100%; 
-      margin-bottom: 10px; /* Відступ між полями введення */
-    }
-    .table-responsive {
-      margin-top: 20px; /* Відступ між списком та заголовком картки */
-    }
-    .header {
-      padding-bottom: 20px; /* Відступ знизу заголовка */
-    }
-    /* Стилі для сповіщень */
+    
     .alert {
       position: fixed;
       top: 20px;
@@ -96,101 +30,86 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h2 class="text-center mb-4 header">Система Управління Бібліотекою</h2>
+    <h2 class="text-center mb-4">Система Управління Бібліотекою</h2>
     
-    <!-- Місце для сповіщень -->
     <div id="notificationArea"></div>
 
     <!-- Додати Книгу -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Додати Книгу</h5>
-        <form id="bookForm">
-          <div class="mb-3">
-            <input type="text" class="form-control" id="bookTitle" placeholder="Назва книги" required>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" id="bookAuthor" placeholder="Автор" required>
-          </div>
-          <div class="mb-3">
-            <input type="number" class="form-control" id="bookYear" placeholder="Рік видання" required>
-          </div>
-          <button type="submit" class="btn btn-success">Додати Книгу</button>
-        </form>
-      </div>
+    <div class="mb-4">
+      <h5>Додати Книгу</h5>
+      <form id="bookForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <input type="text" class="form-control" id="bookTitle" placeholder="Назва книги" required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback">Це поле є обов'язковим</div>
+        </div>
+        <div class="mb-3">
+          <input type="text" class="form-control" id="bookAuthor" placeholder="Автор" required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback">Це поле є обов'язковим</div>
+        </div>
+        <div class="mb-3">
+          <input type="number" class="form-control" id="bookYear" placeholder="Рік видання" required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback">Це поле є обов'язковим і має бути дійсним роком.</div>
+        </div>
+        <button type="submit" class="btn btn-success">Додати Книгу</button>
+      </form>
     </div>
     
     <!-- Додати Користувача -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Додати Користувача</h5>
-        <form id="userForm">
-          <div class="mb-3">
-            <input type="text" class="form-control" id="userName" placeholder="Ім'я" required>
-          </div>
-          <div class="mb-3">
-            <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
-          </div>
-          <button type="submit" class="btn btn-success">Додати Користувача</button>
-        </form>
-      </div>
+    <div class="mb-4">
+      <h5>Додати Користувача</h5>
+      <form id="userForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <input type="text" class="form-control" id="userName" placeholder="Ім'я" required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback">Це поле є обов'язковим</div>
+        </div>
+        <div class="mb-3">
+          <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
+          <div class="valid-feedback"></div>
+          <div class="invalid-feedback">Це поле є обов'язковим і повинно бути дійсним електронним адресою.</div>
+        </div>
+        <button type="submit" class="btn btn-success">Додати Користувача</button>
+      </form>
     </div>
     
-    <!-- Пошук книг -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Пошук Книг</h5>
-        <form id="searchForm">
-          <div class="mb-3">
-            <input type="text" class="form-control" id="searchQuery" placeholder="Назва або Автор" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Пошук</button>
-        </form>
-        <div id="searchResults"></div>
-      </div>
-    </div>
-
     <!-- Список Книг -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Список Книг</h5>
-        <table class="table table-striped table-responsive">
-          <thead>
-            <tr>
-              <th>Назва</th>
-              <th>Автор</th>
-              <th>Рік видання</th>
-              <th>Дії</th>
-            </tr>
-          </thead>
-          <tbody id="bookList">
-            <!-- Список книг буде заповнено за допомогою JavaScript -->
-          </tbody>
-        </table>
-      </div>
+    <div class="mb-4">
+      <h5>Список Книг</h5>
+      <ul id="bookList" class="list-group mb-3">
+        <!-- Книги будуть додані тут -->
+      </ul>
     </div>
-  
+    
     <!-- Список Користувачів -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <h5 class="card-title">Список Користувачів</h5>
-        <table class="table table-striped table-responsive">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Ім'я</th>
-              <th>Email</th>
-              <th>Дії</th>
-            </tr>
-          </thead>
-          <tbody id="userList">
-            <!-- Список користувачів буде заповнено за допомогою JavaScript -->
-          </tbody>
-        </table>
-      </div>
+    <div class="mb-4">
+      <h5>Список Користувачів</h5>
+      <ul id="userList" class="list-group mb-3">
+        <!-- Користувачі будуть додані тут -->
+      </ul>
     </div>
   </div>
-  <script src="bundle.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+  <script src="dist/bundle.js"></script>
+  <script>
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        let forms = document.getElementsByClassName('needs-validation');
+        let validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+
+  </script>
 </body>
 </html>
