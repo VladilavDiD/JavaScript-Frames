@@ -73,7 +73,7 @@ namespace LibraryApp {
     private displayBooks(books: Book[] = this.libraryService.getBooks()): void {
       const bookList = document.getElementById('bookList') as HTMLElement;
       bookList.innerHTML = '';
-
+    
       books.forEach((book, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -81,19 +81,25 @@ namespace LibraryApp {
           <td>${book.author}</td>
           <td>${book.year}</td>
           <td>
-            <button class="btn btn-primary" onclick="app.borrowBookPrompt(${index})">Позичити</button>
-            <button class="btn btn-danger" onclick="app.returnBookPrompt(${index})">Повернути</button>
-            <button class="btn btn-warning" onclick="app.deleteBook(${index})">Видалити</button>
+            <button class="btn btn-primary" id="borrowBtn-${index}">Позичити</button>
+            <button class="btn btn-danger" id="returnBtn-${index}">Повернути</button>
+            <button class="btn btn-warning" id="deleteBtn-${index}">Видалити</button>
           </td>
         `;
         bookList.appendChild(row);
+    
+        // обробники подій
+        (document.getElementById(`borrowBtn-${index}`) as HTMLButtonElement).addEventListener('click', () => this.borrowBookPrompt(index));
+        (document.getElementById(`returnBtn-${index}`) as HTMLButtonElement).addEventListener('click', () => this.returnBookPrompt(index));
+        (document.getElementById(`deleteBtn-${index}`) as HTMLButtonElement).addEventListener('click', () => this.deleteBook(index));
       });
     }
+    
 
     private displayUsers(): void {
       const userList = document.getElementById('userList') as HTMLElement;
       userList.innerHTML = '';
-
+    
       const users = this.libraryService.getUsers();
       users.forEach((user) => {
         const row = document.createElement('tr');
@@ -102,12 +108,16 @@ namespace LibraryApp {
           <td>${user.name}</td>
           <td>${user.email}</td>
           <td>
-            <button class="btn btn-danger" onclick="app.deleteUser(${user.id})">Видалити</button>
+            <button class="btn btn-danger" id="deleteUserBtn-${user.id}">Видалити</button>
           </td>
         `;
         userList.appendChild(row);
+    
+        // обробник події для видалення користувача
+        (document.getElementById(`deleteUserBtn-${user.id}`) as HTMLButtonElement).addEventListener('click', () => this.deleteUser(user.id));
       });
     }
+    
 
     private searchBooks(): void {
       const query = (document.getElementById('searchQuery') as HTMLInputElement).value.toLowerCase();
