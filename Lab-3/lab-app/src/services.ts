@@ -15,13 +15,13 @@ export class LibraryService {
   // Додавання книги
   public addBook(book: Book): void {
     this.books.push(book);
-    this.saveBooksToLocalStorage(); // Зберігаємо книги 
+    this.saveBooksToLocalStorage(); // Зберігаємо книги
   }
 
   // Додавання користувача
   public addUser(user: User): void {
     this.users.push(user);
-    this.saveUsersToLocalStorage(); // Зберігаємо користувачів 
+    this.saveUsersToLocalStorage(); // Зберігаємо користувачів
   }
 
   // Видалення книги
@@ -32,7 +32,7 @@ export class LibraryService {
 
   // Отримання користувача за його ID
   public getUserById(userId: number): User | undefined {
-    return this.users.find(user => user.id === userId);
+    return this.users.find((user) => user.id === userId);
   }
 
   // Отримання всіх книг
@@ -61,15 +61,19 @@ export class LibraryService {
     }
 
     if (!user.canBorrowMoreBooks()) {
-      this.showNotification(`Користувач ${user.name} не може позичити більше ${MAX_BORROW_LIMIT} книг.`);
+      this.showNotification(
+        `Користувач ${user.name} не може позичити більше ${MAX_BORROW_LIMIT} книг.`
+      );
       return;
     }
 
     user.borrowBook(book);
     book.borrow();
-    this.saveBooksToLocalStorage();  // Оновлюємо, після позичання книги
+    this.saveBooksToLocalStorage(); // Оновлюємо, після позичання книги
     this.saveUsersToLocalStorage();
-    this.showNotification(`Книга "${book.title}" успішно позичена користувачем ${user.name}`);
+    this.showNotification(
+      `Книга "${book.title}" успішно позичена користувачем ${user.name}`
+    );
   }
 
   // Повернення книги
@@ -89,9 +93,11 @@ export class LibraryService {
 
     user.returnBook(book);
     book.returnBook();
-    this.saveBooksToLocalStorage();  // Оновлюємо LocalStorage після повернення книги
+    this.saveBooksToLocalStorage(); // Оновлюємо LocalStorage після повернення книги
     this.saveUsersToLocalStorage();
-    this.showNotification(`Книга "${book.title}" успішно повернута користувачем ${user.name}`);
+    this.showNotification(
+      `Книга "${book.title}" успішно повернута користувачем ${user.name}`
+    );
   }
 
   // Метод для відображення сповіщень
@@ -100,43 +106,49 @@ export class LibraryService {
     notification.className = 'alert alert-info';
     notification.innerText = message;
     document.body.appendChild(notification);
-    
+
     // Автоматичне приховування сповіщення через 3 секунди
     setTimeout(() => {
       document.body.removeChild(notification);
     }, 3000);
   }
 
-  // Збереження книг 
+  // Збереження книг
   private saveBooksToLocalStorage(): void {
     localStorage.setItem('books', JSON.stringify(this.books));
   }
 
-  // Завантаження книг 
+  // Завантаження книг
   private loadBooksFromLocalStorage(): void {
     const storedBooks = localStorage.getItem('books');
     if (storedBooks) {
-      this.books = JSON.parse(storedBooks).map((bookData: IBook) => new Book(bookData.title, bookData.author, bookData.year));
+      this.books = JSON.parse(storedBooks).map(
+        (bookData: IBook) =>
+          new Book(bookData.title, bookData.author, bookData.year)
+      );
     }
   }
 
-  // Збереження користувачів 
+  // Збереження користувачів
   private saveUsersToLocalStorage(): void {
     localStorage.setItem('users', JSON.stringify(this.users));
   }
 
-  // Завантаження користувачів 
+  // Завантаження користувачів
   private loadUsersFromLocalStorage(): void {
     const storedUsers = localStorage.getItem('users');
     if (storedUsers) {
-      this.users = JSON.parse(storedUsers).map((userData: IUser) => new User(userData.id, userData.name, userData.email));
+      this.users = JSON.parse(storedUsers).map(
+        (userData: IUser) =>
+          new User(userData.id, userData.name, userData.email)
+      );
       this.userIdCounter = this.users.length + 1; // Оновлюємо лічильник ID
     }
   }
 
   // Видалення користувача
   public removeUser(userId: number): void {
-    this.users = this.users.filter(user => user.id !== userId);
+    this.users = this.users.filter((user) => user.id !== userId);
     this.saveUsersToLocalStorage(); // Оновлюємо LocalStorage після видалення користувача
   }
 }

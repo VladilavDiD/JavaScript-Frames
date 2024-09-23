@@ -1,115 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Система управління бібліотекою</title>
-  <link rel="stylesheet" href="./lab-app/libs/bootstrap.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .container {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .alert {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1050;
-      width: 300px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Система Управління Бібліотекою</h2>
-    
-    <div id="notificationArea"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Система управління бібліотекою</title>
+    <link rel="stylesheet" href="./lab-app/libs/bootstrap.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-    <!-- Додати Книгу -->
-    <div class="mb-4">
-      <h5>Додати Книгу</h5>
-      <form id="bookForm" class="needs-validation" novalidate>
-        <div class="mb-3">
-          <input type="text" class="form-control" id="bookTitle" placeholder="Назва книги" required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback">Це поле є обов'язковим</div>
-        </div>
-        <div class="mb-3">
-          <input type="text" class="form-control" id="bookAuthor" placeholder="Автор" required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback">Це поле є обов'язковим</div>
-        </div>
-        <div class="mb-3">
-          <input type="number" class="form-control" id="bookYear" placeholder="Рік видання" required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback">Це поле є обов'язковим і має бути дійсним роком.</div>
-        </div>
-        <button type="submit" class="btn btn-success">Додати Книгу</button>
-      </form>
-    </div>
-    
-    <!-- Додати Користувача -->
-    <div class="mb-4">
-      <h5>Додати Користувача</h5>
-      <form id="userForm" class="needs-validation" novalidate>
-        <div class="mb-3">
-          <input type="text" class="form-control" id="userName" placeholder="Ім'я" required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback">Це поле є обов'язковим</div>
-        </div>
-        <div class="mb-3">
-          <input type="email" class="form-control" id="userEmail" placeholder="Email" required>
-          <div class="valid-feedback"></div>
-          <div class="invalid-feedback">Це поле є обов'язковим і повинно бути дійсним електронним адресою.</div>
-        </div>
-        <button type="submit" class="btn btn-success">Додати Користувача</button>
-      </form>
-    </div>
-    
-    <!-- Список Книг -->
-    <div class="mb-4">
-      <h5>Список Книг</h5>
-      <ul id="bookList" class="list-group mb-3">
-        <!-- Книги будуть додані тут -->
-      </ul>
-    </div>
-    
-    <!-- Список Користувачів -->
-    <div class="mb-4">
-      <h5>Список Користувачів</h5>
-      <ul id="userList" class="list-group mb-3">
-        <!-- Користувачі будуть додані тут -->
-      </ul>
-    </div>
-  </div>
+      .alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Система Управління Бібліотекою</h2>
 
-  <script src="dist/bundle.js"></script>
-  <script>
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        let forms = document.getElementsByClassName('needs-validation');
-        let validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
+      <div id="notificationArea"></div>
 
-  </script>
-</body>
+      <!-- Додати Книгу -->
+      <div class="mb-4">
+        <h5>Додати Книгу</h5>
+        <form id="bookForm" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="bookTitle"
+              placeholder="Назва книги"
+              required
+            />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Це поле є обов'язковим</div>
+          </div>
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="bookAuthor"
+              placeholder="Автор"
+              required
+            />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Це поле є обов'язковим</div>
+          </div>
+          <div class="mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="bookYear"
+              placeholder="Рік видання"
+              required
+            />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">
+              Це поле є обов'язковим і має бути дійсним роком.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">Додати Книгу</button>
+        </form>
+      </div>
+
+      <!-- Додати Користувача -->
+      <div class="mb-4">
+        <h5>Додати Користувача</h5>
+        <form id="userForm" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="userName"
+              placeholder="Ім'я"
+              required
+            />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">Це поле є обов'язковим</div>
+          </div>
+          <div class="mb-3">
+            <input
+              type="email"
+              class="form-control"
+              id="userEmail"
+              placeholder="Email"
+              required
+            />
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">
+              Це поле є обов'язковим і повинно бути дійсним електронним адресою.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">
+            Додати Користувача
+          </button>
+        </form>
+      </div>
+
+      <!-- Список Книг -->
+      <div class="mb-4">
+        <h5>Список Книг</h5>
+        <ul id="bookList" class="list-group mb-3">
+          <!-- Книги будуть додані тут -->
+        </ul>
+      </div>
+
+      <!-- Список Користувачів -->
+      <div class="mb-4">
+        <h5>Список Користувачів</h5>
+        <ul id="userList" class="list-group mb-3">
+          <!-- Користувачі будуть додані тут -->
+        </ul>
+      </div>
+    </div>
+
+    <script src="dist/bundle.js"></script>
+    <script>
+      (function () {
+        'use strict';
+        window.addEventListener(
+          'load',
+          function () {
+            let forms = document.getElementsByClassName('needs-validation');
+            let validation = Array.prototype.filter.call(
+              forms,
+              function (form) {
+                form.addEventListener(
+                  'submit',
+                  function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                  },
+                  false
+                );
+              }
+            );
+          },
+          false
+        );
+      })();
+    </script>
+  </body>
 </html>
