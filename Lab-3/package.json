@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --open",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "mocha --require ts-node/register --recursive lab-app/test/**/*.ts"
   },
   "author": "",
   "license": "ISC",
